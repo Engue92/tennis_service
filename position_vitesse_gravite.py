@@ -13,7 +13,7 @@ import trajectoir as tr
 
 def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, cote="gauche", croise="bas"):
 
-    n = 1000        # nombre d'iteration
+    n = 1200        # nombre d'iteration
     h = 0.0005      # pas dintegration
 
     faute = False   # testeur de faute

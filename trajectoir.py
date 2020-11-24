@@ -6,11 +6,8 @@ import matplotlib.pyplot as plt
 
 def trajectoir(X,Y,Z):
 
-    
     fig = plt.figure()
-    ax = fig.gca(projection='3d')      # Affichage en 3D
-    
-    ax.plot(X, Z, Y, label='Courbe')   # Tracé de la trajectoire de la balle
+    ax = fig.gca(projection='3d')   # Affichage en 3D
     
     # coordonne du terrain
     TX = [0, 23.78, 23.78, 0, 0]
@@ -39,5 +36,15 @@ def trajectoir(X,Y,Z):
     ax.plot(CX3,CY3,CZ3, color='darkgoldenrod')   # affichage du terrain
     ax.plot(TX,TY,TZ, color='darkgoldenrod')      # affichage du terrain
     ax.plot(FX,FY,FZ, color='black')              # affichage du filet
-    
+      
+    ax.plot(X, Z, Y, label='Courbe')   # Tracé de la trajectoire de la balle
+
+
+
     plt.show()
+    
+    
+    
+    
+    
+    
