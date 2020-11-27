@@ -21,66 +21,60 @@ def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, cote="gauche"
     let = False     # testeur de let
 
     # on declare les tableaux
-    PX = np.zeros(n)
-    PY = np.zeros(n)
-    PZ = np.zeros(n)
-    VX = np.zeros(n)
-    VY = np.zeros(n)
-    VZ = np.zeros(n)
-    T = np.zeros(n)
+    (PX,PY,PZ,VX,VY,VZ,T) = (np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n))
 
     # les positions initiales
-    PX[0] = PXD
-    PY[0] = PYD
-    PZ[0] = PZD
+    (PX[0],PY[0],PZ[0]) = (PXD,PYD,PZD)
 
     # les vitesses initiales
-    VX[0] = VXD
-    VY[0] = VYD
-    VZ[0] = VZD
+    (VX[0],VY[0],VZ[0]) = (VXD,VYD,VZD)
 
     # les approximation initiales
-    PX1 = 1
-    PY1 = 1
-    PZ1 = 1
-    VX1 = 1
-    VY1 = 1
-    VZ1 = 1 
-    C = 1
-
+    (PX1,PY1,PZ1,VX1,VY1,VZ1) = (1,1,1,1,1,1)
+    
+    # variable de teste des approximation
+    (TAPX,TAPY,TAPZ,TAVX,TAVY,TAVZ) = (1,1,1,1,1,1)
+    
     for i in range(n-1):
         
         T[i+1] = T[i]+h   # incrementation du temps
 
         if zone != True and faute != True:  # calcule de la trajectoir avant de toucher le sol
-            
             # Calcule des approximation avec Euler
             (PX1,PY1,PZ1,VX1,VY1,VZ1) = eu.euler_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],fct="g")
 
-            while abs(PX[i+1] - C) > 0.000001 :
+            while abs(PX[i+1] - TAPX) > 0.000001 and abs(PY[i+1] - TAPY) > 0.000001 and abs(PZ[i+1] - TAPZ) > 0.000001 and abs(VX[i+1] - TAVX) > 0.000001 and abs(VY[i+1] - TAVY) > 0.000001 and abs(VZ[i+1] - TAVZ) > 0.000001 :
             
-                C = PX1   # 
-                print(1)
+                (TAPX,TAPY,TAPZ,TAVX,TAVY,TAVZ) = (PX1,PY1,PZ1,VX1,VY1,VZ1)
+                
                 # Calcule des position avec Adams-Moulton
                 (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1]) = am.adams_moulton_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],PX1,PY1,PZ1,VX1,VY1,VZ1,fct="g")
                 
-                PX1 = PX[i+1]
+                (PX1,PY1,PZ1,VX1,VY1,VZ1) = (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1])
                 
             # Teste de validite du service
             (filet, faute, let) = tf.teste_filet(PX[i], PY[i], PZ[i])                 # teste de la hauteur au filet
             (zone, faute) = tz.teste_zone(PX[i], PY[i], PZ[i], let, cote, croise)     # teste de la zone de service
                
-            if zone:            # si la balle atterit dans la bonne zone du terrain
+            if zone:
+                # si la balle atterit dans la bonne zone du terrain
                 VY[i]=-VY[i]    # inversion de la vitesse au moment du rebond                
 
         if zone == True and faute != True:  # calcule de la trajectoir apres le rebond
-            # approxition des positions a t+1 avec Euler
+            # approxition des positions a t+1 avec Euler
             (PX1,PY1,PZ1,VX1,VY1,VZ1) = eu.euler_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],fct="g")
-
-            # Calcule des position avec Adams-Moulton
-            (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1]) = am.adams_moulton_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],PX1,PY1,PZ1,VX1,VY1,VZ1,fct="g")
-
-    
+            print(1)
+            print(VY[i])
+            while abs(PX[i+1] - TAPX) > 0.000001 and abs(PY[i+1] - TAPY) > 0.000001 and abs(PZ[i+1] - TAPZ) > 0.000001 and abs(VX[i+1] - TAVX) > 0.000001 and abs(VY[i+1] - TAVY) > 0.000001 and abs(VZ[i+1] - TAVZ) > 0.000001 :
+                print(2)
+                (TAPX,TAPY,TAPZ,TAVX,TAVY,TAVZ) = (PX1,PY1,PZ1,VX1,VY1,VZ1)
+                print(VY[i])
+                # Calcule des position avec Adams-Moulton
+                (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1]) = am.adams_moulton_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],PX1,PY1,PZ1,VX1,VY1,VZ1,fct="g")
+                print(VY[i])
+                (PX1,PY1,PZ1,VX1,VY1,VZ1) = (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1])
+                print(VY[i])
+                
     tr.trajectoir(PX,PY,PZ)
 
     return (zone)

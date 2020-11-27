@@ -13,8 +13,7 @@ def f4(T, PX, PY, PZ, VX, VY, VZ):
     return (0)
 
 def f5(T, PX, PY, PZ, VX, VY, VZ):
-    g = -9.81
-    return (g)
+    return (-9.81)
 
 def f6(T, PX, PY, PZ, VX, VY, VZ):
     return (0)
