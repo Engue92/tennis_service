@@ -195,8 +195,19 @@ if force == "toutes" or "toute" or "tout" or "Toutes" or "Touts" or "Tout":
             pvm.calcule_position_vitesse_gravite(PX,PY,PZ,VX,VY,VZ,cote,croise)
     """
 
-pvg.calcule_position_vitesse_gravite(PXD=0,PYD=3,PZD=4.3,VXD=63,VYD=-12,VZD=-14,cote="gauche",croise="bas")
-#pvm.calcule_position_vitesse_magnus(PXD=0,PYD=3,PZD=4.3,VXD=63,VYD=-12,VZD=-14,cote="gauche",croise="bas")
+#pvg.calcule_position_vitesse_gravite(PXD=0,PYD=3,PZD=4.3,VXD=63,VYD=-12,VZD=-14,cote="gauche",croise="bas")
+#pvm.calcule_position_vitesse_magnus(PXD=0,PYD=3,PZD=4.3,VXD=67,VYD=-13,VZD=-14,cote="gauche",croise="bas")
+#pvm.calcule_position_vitesse_magnus(PXD=0,PYD=3,PZD=4.3,VXD=67,VYD=-14,VZD=-14,cote="gauche",croise="bas")
+
+
+ih.intervalle_hauteur (0,4.3,63,-12,-14,"gauche","bas","g")
+
+
+
+
+
+
+
 
 
 

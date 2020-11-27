@@ -15,10 +15,8 @@ def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, cote="gauche"
     n = 1200        # nombre d'iteration
     h = 0.0005      # pas dintegration
 
-    faute = False   # testeur de faute
-    filet = False   # testeur de passage de filet
-    zone = False    # testeur de zone de service
-    let = False     # testeur de let
+    # variable de teste
+    (filet,sol,let,service) = (False,False,False,False)  # testeur de faute
 
     # on declare les tableaux
     (PX,PY,PZ,VX,VY,VZ,T) = (np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n))
@@ -39,42 +37,57 @@ def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, cote="gauche"
         
         T[i+1] = T[i]+h   # incrementation du temps
 
-        if zone != True and faute != True:  # calcule de la trajectoir avant de toucher le sol
+        if sol != True :  # calcule de la trajectoir avant de toucher le sol
+        
             # Calcule des approximation avec Euler
             (PX1,PY1,PZ1,VX1,VY1,VZ1) = eu.euler_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],fct="g")
-
-            while abs(PX[i+1] - TAPX) > 0.000001 and abs(PY[i+1] - TAPY) > 0.000001 and abs(PZ[i+1] - TAPZ) > 0.000001 and abs(VX[i+1] - TAVX) > 0.000001 and abs(VY[i+1] - TAVY) > 0.000001 and abs(VZ[i+1] - TAVZ) > 0.000001 :
             
+            # tant que l'approximation n'est pas assez precise
+            while abs(PX[i+1] - TAPX) > 0.000001 and abs(PY[i+1] - TAPY) > 0.000001 and abs(PZ[i+1] - TAPZ) > 0.000001 and abs(VX[i+1] - TAVX) > 0.000001 and abs(VY[i+1] - TAVY) > 0.000001 and abs(VZ[i+1] - TAVZ) > 0.000001 :
+               
+                # on donne la valeur approxime a la variable de teste de l'approximation
                 (TAPX,TAPY,TAPZ,TAVX,TAVY,TAVZ) = (PX1,PY1,PZ1,VX1,VY1,VZ1)
-                
+               
                 # Calcule des position avec Adams-Moulton
                 (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1]) = am.adams_moulton_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],PX1,PY1,PZ1,VX1,VY1,VZ1,fct="g")
-                
+              
+                # on donne la valeur a i+1 a l'approximation 
                 (PX1,PY1,PZ1,VX1,VY1,VZ1) = (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1])
                 
             # Teste de validite du service
-            (filet, faute, let) = tf.teste_filet(PX[i], PY[i], PZ[i])                 # teste de la hauteur au filet
-            (zone, faute) = tz.teste_zone(PX[i], PY[i], PZ[i], let, cote, croise)     # teste de la zone de service
-               
-            if zone:
-                # si la balle atterit dans la bonne zone du terrain
-                VY[i]=-VY[i]    # inversion de la vitesse au moment du rebond                
-
-        if zone == True and faute != True:  # calcule de la trajectoir apres le rebond
-            # approxition des positions a t+1 avec Euler
+            if filet != True and let != True :
+                (filet, let) = tf.teste_filet(PX[i], PY[i], PZ[i])               # teste de la hauteur au filet
+            (sol,service) = tz.teste_zone(PX[i], PY[i], PZ[i], let, filet, cote, croise) # teste de la zone de service
+                        
+        if sol == True :  # calcule de la trajectoir apres le rebond
+           
+            # approxition des positions a i+1 avec Euler
             (PX1,PY1,PZ1,VX1,VY1,VZ1) = eu.euler_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],fct="g")
-            print(1)
-            print(VY[i])
+            VY[i]=abs(VY[i])  # on donne a la vitesse en Y sa valeur absolue
+            
+            # tant que l'approximation n'est pas assez precise
             while abs(PX[i+1] - TAPX) > 0.000001 and abs(PY[i+1] - TAPY) > 0.000001 and abs(PZ[i+1] - TAPZ) > 0.000001 and abs(VX[i+1] - TAVX) > 0.000001 and abs(VY[i+1] - TAVY) > 0.000001 and abs(VZ[i+1] - TAVZ) > 0.000001 :
-                print(2)
+             
+                # on donne la valeur approxime a la variable de teste de l'approximation
                 (TAPX,TAPY,TAPZ,TAVX,TAVY,TAVZ) = (PX1,PY1,PZ1,VX1,VY1,VZ1)
-                print(VY[i])
+             
                 # Calcule des position avec Adams-Moulton
                 (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1]) = am.adams_moulton_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],PX1,PY1,PZ1,VX1,VY1,VZ1,fct="g")
-                print(VY[i])
-                (PX1,PY1,PZ1,VX1,VY1,VZ1) = (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1])
-                print(VY[i])
-                
-    tr.trajectoir(PX,PY,PZ)
+              
+                # on donne la valeur a i+1 a l'approximation
+                (PX1,PY1,PZ1,VX1,VY1,VZ1) = (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1])             
+                 
+            
+    tr.trajectoir(PX,PY,PZ)  # affichage de la trajectoire
 
-    return (zone)
+    return(service)
+
+
+
+
+
+
+
+
+
+

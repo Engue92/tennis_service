@@ -6,15 +6,14 @@ import numpy as np
 
 def intervalle_hauteur (PX,PZ,VX,VY,VZ,cote,croise,force) :
     
-    h = 0.0005  # pas d'iteration
-    n = 1200    # nb d'iteration
+    h = 0.005  # pas d'iteration
+    n = 500    # nb d'iteration
     
     PY = np.zeros(n)
     PY[0] = 1
     i = 0
     
-    PYinf = 0
-    PYsup = 0
+    (PYinf,PYsup) = (0,0)
     
     service = False
     
@@ -33,4 +32,4 @@ def intervalle_hauteur (PX,PZ,VX,VY,VZ,cote,croise,force) :
     PY[i] = PYsup
     
     print("l'intervale de hauteur pour que le service soit bon avec les paramètre rentré est :")
-    print("De ", PYinf, " à ", PYsup)
+    print("De ", PYinf, "m à ", PYsup, "m")
