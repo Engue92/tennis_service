@@ -1,4 +1,4 @@
-#programme pour encoder les fonctions en prennant en compte uniquement la gravité
+#programme pour encoder les fonctions en prennant en compte uniquement la gravite
 
 def f1(T, PX, PY, PZ, VX, VY, VZ):
         return (VX)

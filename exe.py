@@ -2,6 +2,7 @@
 
 import position_vitesse_gravite as pvg
 import position_vitesse_magnus as pvm
+import intervalle_hauteur as ih
 
 """
 print("\nBonjour, bienvenue dans le calculateur de service !")
@@ -195,5 +196,7 @@ if force == "toutes" or "toute" or "tout" or "Toutes" or "Touts" or "Tout":
     """
 
 pvg.calcule_position_vitesse_gravite(PXD=0,PYD=3,PZD=4.3,VXD=63,VYD=-12,VZD=-14,cote="gauche",croise="bas")
+pvm.calcule_position_vitesse_magnus(PXD=0,PYD=3,PZD=4.3,VXD=63,VYD=-12,VZD=-14,cote="gauche",croise="bas")
+
 
 

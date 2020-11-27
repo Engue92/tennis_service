@@ -7,7 +7,6 @@ import euler as eu
 import adams_moulton as am
 import teste_filet as tf
 import teste_zone as tz
-import fonctions_gravite as f
 import trajectoir as tr
 # importation des autres fichiers
 
@@ -41,12 +40,13 @@ def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, cote="gauche"
     VZ[0] = VZD
 
     # les approximation initiales
-    PX1 = 0
-    PY1 = 0
-    PZ1 = 0
-    VX1 = 0
-    VY1 = 0
-    VZ1 = 0    
+    PX1 = 1
+    PY1 = 1
+    PZ1 = 1
+    VX1 = 1
+    VY1 = 1
+    VZ1 = 1 
+    C = 1
 
     for i in range(n-1):
         
@@ -54,24 +54,19 @@ def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, cote="gauche"
 
         if zone != True and faute != True:  # calcule de la trajectoir avant de toucher le sol
             
-            # approxition des positions a  t+1 avec Euler
-            PX1 = eu.euler_methode(f.f1, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 1)
-            PY1 = eu.euler_methode(f.f2, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 2)
-            PZ1 = eu.euler_methode(f.f3, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 3)
-            VX1 = eu.euler_methode(f.f4, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 4)
-            VY1 = eu.euler_methode(f.f5, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 5)
-            VZ1 = eu.euler_methode(f.f6, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 6)
+            # Calcule des approximation avec Euler
+            (PX1,PY1,PZ1,VX1,VY1,VZ1) = eu.euler_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],fct="g")
 
-            # Calcule des position avec Adams-Moulton
-            PX[i+1] = am.adams_moulton_methode(f.f1, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], PX1, 1)
-            PY[i+1] = am.adams_moulton_methode(f.f2, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], PY1, 2)
-            PZ[i+1] = am.adams_moulton_methode(f.f3, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], PZ1, 3)
-            VX[i+1] = am.adams_moulton_methode(f.f4, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], VX1, 4)
-            VY[i+1] = am.adams_moulton_methode(f.f5, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], VY1, 5)
-            VZ[i+1] = am.adams_moulton_methode(f.f6, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], VZ1, 6)
-
-
-            # Partie de teste de validite du service
+            while abs(PX[i+1] - C) > 0.000001 :
+            
+                C = PX1   # 
+                print(1)
+                # Calcule des position avec Adams-Moulton
+                (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1]) = am.adams_moulton_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],PX1,PY1,PZ1,VX1,VY1,VZ1,fct="g")
+                
+                PX1 = PX[i+1]
+                
+            # Teste de validite du service
             (filet, faute, let) = tf.teste_filet(PX[i], PY[i], PZ[i])                 # teste de la hauteur au filet
             (zone, faute) = tz.teste_zone(PX[i], PY[i], PZ[i], let, cote, croise)     # teste de la zone de service
                
@@ -80,21 +75,12 @@ def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, cote="gauche"
 
         if zone == True and faute != True:  # calcule de la trajectoir apres le rebond
             # approxition des positions a t+1 avec Euler
-            PX1 = eu.euler_methode(f.f1, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 1)
-            PY1 = eu.euler_methode(f.f2, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 2)
-            PZ1 = eu.euler_methode(f.f3, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 3)
-            VX1 = eu.euler_methode(f.f4, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 4)
-            VY1 = eu.euler_methode(f.f5, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 5)
-            VZ1 = eu.euler_methode(f.f6, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], 6)
+            (PX1,PY1,PZ1,VX1,VY1,VZ1) = eu.euler_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],fct="g")
 
             # Calcule des position avec Adams-Moulton
-            PX[i+1] = am.adams_moulton_methode(f.f1, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], PX1, 1)
-            PY[i+1] = am.adams_moulton_methode(f.f2, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], PY1, 2)
-            PZ[i+1] = am.adams_moulton_methode(f.f3, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], PZ1, 3)
-            VX[i+1] = am.adams_moulton_methode(f.f4, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], VX1, 4)
-            VY[i+1] = am.adams_moulton_methode(f.f5, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], VY1, 5)
-            VZ[i+1] = am.adams_moulton_methode(f.f6, T[i], PX[i], PY[i], PZ[i], VX[i], VY[i], VZ[i], VZ1, 6)
+            (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1]) = am.adams_moulton_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],PX1,PY1,PZ1,VX1,VY1,VZ1,fct="g")
+
     
     tr.trajectoir(PX,PY,PZ)
 
-
+    return (zone)
