@@ -13,7 +13,7 @@ def teste_filet(PX,PY,PZ,teste=False):
     # on prend une marge de 11.89 à 11.91 pour être sur d'avoir une valeur au filet
     
         if teste == False :  # si nous ne somme pas dans le cas d'un teste d'intervale
-            print("Hauteur de la balle au filet : ", PY)   
+            print("\nHauteur de la balle au filet : ", PY)   
                 
         if PY > 1.1025 :  # si la balle passe le filet
             if teste == False :  # si nous ne somme pas dans le cas d'un teste d'intervale

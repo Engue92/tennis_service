@@ -1,4 +1,4 @@
-#programme pour encoder les fonctions en prennant en compte uniquement la gravite
+# programme pour encoder les fonctions en prennant en compte uniquement la gravite
 
 g = 9.81  # force de pesenteur
 

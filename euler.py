@@ -24,6 +24,6 @@ def euler_methode(T,PX,PY,PZ,VX,VY,VZ,h,fct,VR=0.4):
     
     
     return (PX1,PY1,PZ1,VX1,VY1,VZ1)
-    # renvoie position à t+1 approximé avec euler """
+    # renvoie position à t+1 approximé avec euler 
 
 

@@ -27,7 +27,7 @@ def f4(T, PX, PY, PZ, VX, VY, VZ, VR=0.4) :
     if VR != 0 :
         return ( - (Cd*alpha*VX*norme_v/m) + ( (alpha/(2 + norme_v*0.98/(np.pi*0.065*VR))) * (norme_v**2/m) * (n[0]/norme_n) ) )
     elif VR == 0 :
-        return ( - (Cd*alpha*VX*norme_v/m) + ( (alpha/(2 + norme_v*0.98/(np.pi*0.065*VR))) * (norme_v**2/m) * (n[0]/norme_n) ) )
+        return ( - (Cd*alpha*VX*norme_v/m) )
 
 
 def f5(T, PX, PY, PZ, VX, VY, VZ, VR=0.4) :
@@ -36,9 +36,10 @@ def f5(T, PX, PY, PZ, VX, VY, VZ, VR=0.4) :
     n = np.cross(r,v)   # produit vectorielle entre la vitesse et l'axe de rotation de la balle
     norme_v = np.sqrt(VX**2 + VY**2 + VZ**2)      # norme de la vitesse
     norme_n = np.sqrt(n[0]**2 +n[1]**2 +n[2]**2)  # norme du produit vectoriel
-    
-    return ( - g - (Cd*alpha*VY*norme_v/m) + ( (alpha/(2 + norme_v*0.98/(np.pi*0.065*VR))) * (norme_v**2/m) * (n[1]/norme_n) ) )  
-
+    if VR != 0 :
+        return ( - g - (Cd*alpha*VY*norme_v/m) + ( (alpha/(2 + norme_v*0.98/(np.pi*0.065*VR))) * (norme_v**2/m) * (n[1]/norme_n) ) )  
+    if VR == 0 : 
+        return ( - g - (Cd*alpha*VY*norme_v/m) )
 
 def f6(T, PX, PY, PZ, VX, VY, VZ, VR=0.4) :
     
@@ -46,8 +47,9 @@ def f6(T, PX, PY, PZ, VX, VY, VZ, VR=0.4) :
     n = np.cross(r,v)   # produit vectorielle entre la vitesse et l'axe de rotation de la balle
     norme_v = np.sqrt(VX**2 + VY**2 + VZ**2)      # norme de la vitesse
     norme_n = np.sqrt(n[0]**2 +n[1]**2 +n[2]**2)  # norme du produit vectoriel
-    
-    return ( - (Cd*alpha*VZ*norme_v/m) + ( (alpha/(2 + norme_v*0.98/(np.pi*0.065*VR))) * (norme_v**2/m) * (n[2]/norme_n) ) )
-
+    if VR != 0 :
+        return ( - (Cd*alpha*VZ*norme_v/m) + ( (alpha/(2 + norme_v*0.98/(np.pi*0.065*VR))) * (norme_v**2/m) * (n[2]/norme_n) ) )
+    elif VR == 0 :
+        return ( - (Cd*alpha*VZ*norme_v/m) )
 
 

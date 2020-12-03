@@ -11,7 +11,6 @@ def teste_zone(PX,PY,PZ,let,filet,teste=False):
         sol = True  # variable indicant que la balle a touche le sol
         
         if filet == True :  # si le fillet est passe
-        
             if PX>= 11.9 and PX<=18.29 and PZ>=0 and PZ<=4.115:  # condition dans laquel le service est dans la zone
                 if let == False : # si le service n'est pas let tout est valide le service est bon
                     if teste == False :  # si nous ne somme pas dans le cas d'un teste d'intervale
