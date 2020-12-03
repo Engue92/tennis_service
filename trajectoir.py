@@ -39,9 +39,7 @@ def trajectoir(X,Y,Z):
       
     ax.plot(X, Z, Y, label='Courbe')   # Tracé de la trajectoire de la balle
 
-
-
-    plt.show()
+    plt.show()  # affichage de tout les ellements
     
     
     

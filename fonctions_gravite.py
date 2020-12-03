@@ -1,9 +1,9 @@
 #programme pour encoder les fonctions en prennant en compte uniquement la gravite
 
-g = 9.81
+g = 9.81  # force de pesenteur
 
 def f1(T, PX, PY, PZ, VX, VY, VZ):
-        return (VX)
+    return (VX)
 
 def f2(T, PX, PY, PZ, VX, VY, VZ):
     return (VY)
