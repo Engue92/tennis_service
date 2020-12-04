@@ -30,9 +30,6 @@ def intervalle_rotation (PX,PY,PZ,VX,VY,VZ,h=1,n=60,VRD0=-20) :
     
     while service == True and i < n-1 :
     # deuxieme partie ou on cherche a savoir jusqu'a quand le service est valide
-        if VRD[i] == 0 :         # impossible de diviser par 0 on gere donc cette posibilite
-            VRD[i+1] = VRD[i]+h  # on fais augmenter la vitesse de rotation de la valeur du pas
-            i += 1               # incrementation du compteur
         service = pvm.calcule_position_vitesse_magnus(PX,PY,PZ,VX,VY,VZ,teste=True,VRD=VRD[i])
         # on fait tourner le programme pour savoir si le service est bon a la vitesse VRD[i]
         VRD[i+1] = VRD[i]+h      # on fais augmenter la vitesse de rotation de la valeur du pas

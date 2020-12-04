@@ -112,7 +112,6 @@ if choix1 == "s" or choix1 == "S" or choix1 == "service" or choix1 == "Service" 
             
         pvm.calcule_position_vitesse_gravite(PX,PY,PZ,VX,VY,VZ,VRD=VR)
 
-
 # Pour la gravite :
     
 # service bon :

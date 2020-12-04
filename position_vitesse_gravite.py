@@ -36,7 +36,9 @@ def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, teste=False):
     for i in range(n-1):  # boucle le nombre d'iteration 
         
         T[i+1] = T[i]+h   # incrementation du temps
-
+       
+        
+        
         if sol != True :  # calcule de la trajectoir avant de toucher le sol
         
             # Calcule des approximation avec Euler
@@ -75,8 +77,8 @@ def calcule_position_vitesse_gravite(PXD, PYD, PZD, VXD, VYD, VZD, teste=False):
                 (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1]) = am.adams_moulton_methode(T[i],PX[i],PY[i],PZ[i],VX[i],VY[i],VZ[i],PX1,PY1,PZ1,VX1,VY1,VZ1,h,fct="g")
               
                 # on donne la valeur a i+1 a l'approximation
-                (PX1,PY1,PZ1,VX1,VY1,VZ1) = (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1])             
-                 
+                (PX1,PY1,PZ1,VX1,VY1,VZ1) = (PX[i+1],PY[i+1],PZ[i+1],VX[i+1],VY[i+1],VZ[i+1])                             
+            
     if teste == False :  # on n'affiche pas si l'on efectue un teste d'intervale
         tr.trajectoir(PX,PY,PZ)  # affichage de la trajectoire
 
